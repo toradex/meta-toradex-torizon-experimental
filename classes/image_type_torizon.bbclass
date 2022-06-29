@@ -16,7 +16,9 @@ TEZI_IMAGE_TEZIIMG_PREFUNCS_append = " adjust_tezi_artifacts"
 
 IMAGE_CMD_ota_prepend() {
 	if [ "${OSTREE_BOOTLOADER}" = "u-boot" ]; then
-		cp -a ${DEPLOY_DIR_IMAGE}/boot.scr-${MACHINE} ${OTA_SYSROOT}/boot.scr
+        if [ "${MACHINE}" = *"raspberrypi"* ]; then
+		    cp -a ${DEPLOY_DIR_IMAGE}/boot.scr-${MACHINE} ${OTA_SYSROOT}/boot.scr
+        fi
 	fi
 }
 do_image_ota[depends] += "${@'u-boot-default-script:do_deploy' if d.getVar('OSTREE_BOOTLOADER') == 'u-boot' else ''}"
